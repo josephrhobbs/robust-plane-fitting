@@ -33,7 +33,7 @@
 \maketitle
 
 \begin{abstract}
-A wonderful abstract.
+The fitting of an optimal plane to raw 3D points (such as those returned from a LiDAR sensor) is a ubiquitous problem in robotic state estimation and sensor calibration.  Without outliers, the problem is easily reduced to principal component analysis (PCA).  However, in the presence of outliers, existing methods either get trapped in local minima, remain only probabilistically complete, or finish in exponential time in the worst case.  Here, we present a method for determining the globally optimal plane to fit a collection of points under the presence of outliers and in polynomial time.  We first formulate the problem as a mixed-integer quadratic program (MIQP), and then show how an existing relaxation from the literature---dubbed \textit{binary cloning}---converts the MIQP into a convex semidefinite program (SDP) that can be solved to global optimality using off-the-shelf solvers.  We then propose a hybrid RANSAC/SDP algorithm for improved performance relative to the ``vanilla" SDP method, at the cost of probabilistic completeness.  We implement both the PCA-based solver and the SDP-based solver in Python and release the code as open-source (\href{https://github.com/josephrhobbs/robust-plane-fitting.git}{josephrhobbs/robust-plane-fitting}).
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -284,7 +284,7 @@ which is significantly improved over \( \mathcal{O}(N^6) \) when \( k \ll N \) a
 
 \section{Discussion}
 
-We have discussed three standard methods for robust plane fitting (robust estimation, RANSAC, and BnB) and additionally covered a fourth method for robust plane fitting via a semidefinite relaxation of a typically nonconvex QCQP.  In practice, relaxations such as this one are tight up to very high outlier ratios \cite{quasar}.  As convex optimization problems, they converge to globally optimal solutions in polynomial time, which cannot be said about any of the three existing methods.
+We have discussed three standard methods for robust plane fitting (robust estimation, RANSAC, and BnB) and additionally covered a fourth method for robust plane fitting via a semidefinite relaxation of a typically nonconvex MIQP.  In practice, relaxations such as this one are tight up to very high outlier ratios \cite{quasar}.  As convex optimization problems, they converge to globally optimal solutions in polynomial time, which cannot be said about any of the three existing methods.
 
 Semidefinite programming solvers are frequently unavailable for commercial use without a license.  However, we expect existing first-order methods such as operator splitting to outperform second-order methods, such as those implemented in MOSEK, by avoiding the construction of a large \( N^2 \times N^2 \) KKT system \cite{admm, mosek}.  Furthermore, the development of an independent implementation of operator splitting is sufficiently achievable.  We leave the explicit implementation of operator splitting for future work.
 
